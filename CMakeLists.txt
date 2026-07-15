@@ -22,13 +22,14 @@ install(PROGRAMS
   RENAME amr_behavior_tree
 )
 
-# 3. Share directories (launch, worlds, models, rviz, config)
+# 3. Share directories (launch, worlds, models, rviz, config, maps)
 install(DIRECTORY
   launch
   worlds
   models
   rviz
   config
+  maps
   DESTINATION share/${PROJECT_NAME}
 )
 
