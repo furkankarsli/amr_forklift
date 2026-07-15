@@ -1,0 +1,12 @@
+imu_filter_madgwick_node:
+  ros__parameters:
+    use_mag: false
+    publish_tf: false
+    world_frame: "enu"          # Humble/Jazzy için ENU standarttır
+    fixed_frame: "base_footprint"    # IMU verisi bu frame'e göre işlenir
+    orientation_stddev: 0.03
+    gain: 0.041
+    magnetic_declination_radians: 0.0
+    reverse_mag_x: false
+    reverse_mag_y: false
+    reverse_mag_z: false
