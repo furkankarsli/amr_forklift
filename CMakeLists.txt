@@ -21,6 +21,11 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
   RENAME amr_behavior_tree
 )
+install(PROGRAMS
+  amr_forklift/scan_filter_node.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME scan_filter_node
+)
 
 # 3. Share directories (launch, worlds, models, rviz, config, maps)
 install(DIRECTORY

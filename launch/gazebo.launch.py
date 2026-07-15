@@ -101,6 +101,15 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
+    # Scan Filter Node
+    scan_filter_node = Node(
+        package='amr_forklift',
+        executable='scan_filter_node',
+        name='scan_filter_node',
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+
     return LaunchDescription(
         declared_arguments + [
             set_gazebo_resource,
@@ -109,5 +118,6 @@ def generate_launch_description():
             robot_state_publisher,
             spawn_robot,
             rviz_node,
+            scan_filter_node,
         ]
     )

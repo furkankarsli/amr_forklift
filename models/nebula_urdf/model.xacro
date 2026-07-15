@@ -195,6 +195,29 @@
   <xacro:LIDAR x="0" y="0" z="0.2"/>
   <xacro:IMU x="0" y="0" z="0.09"/>
 
+  <!-- DISTANCE SENSOR MACRO -->
+  <xacro:macro name="DISTANCE_SENSOR" params="name x y z">
+    <link name="${name}_link">
+      <xacro:box_inertia m="0.01" l="0.02" w="0.02" h="0.02" xyz="0 0 0" rpy="0 0 0"/>
+      <visual>
+        <geometry><box size="0.02 0.02 0.02"/></geometry>
+        <material name="white"><color rgba="1 1 1 1"/></material>
+      </visual>
+      <collision>
+        <geometry><box size="0.02 0.02 0.02"/></geometry>
+      </collision>
+    </link>
+    <joint name="${name}_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="${name}_link"/>
+      <origin xyz="${x} ${y} ${z}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- Front Distance Sensors (placed in front of the left/right columns) -->
+  <xacro:DISTANCE_SENSOR name="left_sensor" x="0.431" y="0.12" z="0.2"/>
+  <xacro:DISTANCE_SENSOR name="right_sensor" x="0.431" y="-0.12" z="0.2"/>
+
   <!-- ============================================================ -->
   <!-- FORKLİFT KALDIRMA MEKANİZMASI (DETACHABLE / AYRILABİLİR) -->
   <!-- ============================================================ -->
