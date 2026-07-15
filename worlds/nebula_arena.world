@@ -1,0 +1,547 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="nebula_saha_world">
+
+    <!-- Fizik motoru -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <!-- Güneş ışığı -->
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 12 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Zemin -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode><mu>100</mu><mu2>50</mu2></ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.85 0.85 0.85 1</ambient>
+            <diffuse>0.85 0.85 0.85 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- ===== DIŞ ÇERÇEVE DUVARLARI (Giriş/Çıkış Açıklıkları ile Birlikte) ===== -->
+    
+    <!-- Üst Duvar (Y = 5, Koridor Girişi İçin Ortası Açık: x = -0.75 ile x = 0.75 arası boşluk) -->
+    <!-- Üst Duvar Sol Kısım -->
+    <model name="outer_wall_top_left">
+      <static>true</static>
+      <pose>-4.375 5 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>7.25 0.1 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>7.25 0.1 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Üst Duvar Sağ Kısım -->
+    <model name="outer_wall_top_right">
+      <static>true</static>
+      <pose>4.375 5 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>7.25 0.1 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>7.25 0.1 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Alt Duvar (Y = -5, Koridor Çıkışı İçin Ortası Açık: x = -0.75 ile x = 0.75 arası boşluk) -->
+    <!-- Alt Duvar Sol Kısım -->
+    <model name="outer_wall_bottom_left">
+      <static>true</static>
+      <pose>-4.375 -5 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>7.25 0.1 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>7.25 0.1 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Alt Duvar Sağ Kısım -->
+    <model name="outer_wall_bottom_right">
+      <static>true</static>
+      <pose>4.375 -5 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>7.25 0.1 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>7.25 0.1 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sol Dış Duvar (X = -8, Sol Orta Kapı Açıklığı İçin Ortası Açık: y = -1.0 ile y = 1.0 arası boşluk) -->
+    <!-- Sol Duvar Üst Kısım -->
+    <model name="outer_wall_left_top">
+      <static>true</static>
+      <pose>-8 3.0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sol Duvar Alt Kısım -->
+    <model name="outer_wall_left_bottom">
+      <static>true</static>
+      <pose>-8 -3.0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sağ Dış Duvar (X = 8, Tam Kapalı) -->
+    <model name="outer_wall_right">
+      <static>true</static>
+      <pose>8 0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.1 10.0 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.1 10.0 1.0</size></box></geometry>
+          <material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- ===== ÇİFT BÖLME KORİDOR DUVARLARI VE KAPILAR ===== -->
+    <!-- Sol Koridor Duvarı Üst Kısım -->
+    <model name="left_partition_wall_top">
+      <static>true</static>
+      <pose>-0.75 3.0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sol Koridor Duvarı Alt Kısım -->
+    <model name="left_partition_wall_bottom">
+      <static>true</static>
+      <pose>-0.75 -3.0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- SOL BARİYER SİSTEMİ -->
+    <!-- Sol Bariyer Kasası (Base) -->
+    <model name="left_barrier_base">
+      <static>true</static>
+      <pose>-0.75 -1.0 0.4 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2 0.2 0.8</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 0.2 0.8</size></box></geometry>
+          <material><ambient>0.2 0.2 0.2 1</ambient><diffuse>0.2 0.2 0.2 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sol Bariyer Kolu (Arm) -->
+    <model name="left_barrier_arm">
+      <static>true</static>
+      <pose>-0.75 0.0 0.65 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.05 2.0 0.05</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>0.05 2.0 0.05</size></box></geometry>
+          <material><ambient>0.8 0.4 0.0 1</ambient><diffuse>0.8 0.4 0.0 1</diffuse></material> <!-- Turuncu Bariyer Kolu -->
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sağ Koridor Duvarı Üst Kısım -->
+    <model name="right_partition_wall_top">
+      <static>true</static>
+      <pose>0.75 3.0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sağ Koridor Duvarı Alt Kısım -->
+    <model name="right_partition_wall_bottom">
+      <static>true</static>
+      <pose>0.75 -3.0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.1 4.0 1.0</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- SAĞ BARİYER SİSTEMİ -->
+    <!-- Sağ Bariyer Kasası (Base) -->
+    <model name="right_barrier_base">
+      <static>true</static>
+      <pose>0.75 -1.0 0.4 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2 0.2 0.8</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 0.2 0.8</size></box></geometry>
+          <material><ambient>0.2 0.2 0.2 1</ambient><diffuse>0.2 0.2 0.2 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sağ Bariyer Kolu (Arm) -->
+    <model name="right_barrier_arm">
+      <static>true</static>
+      <pose>0.75 0.0 0.65 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.05 2.0 0.05</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>0.05 2.0 0.05</size></box></geometry>
+          <material><ambient>0.8 0.4 0.0 1</ambient><diffuse>0.8 0.4 0.0 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- ===== BAŞLANGIÇ VE YÜK ALMA/BIRAKMA BÖLGELERİ ===== -->
+    <!-- Başlangıç Alanı (Zemin Seviyesinde İnce Plaka) -->
+    <model name="start_area">
+      <static>true</static>
+      <pose>-6 -3.8 0.002 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.2 1.2 0.004</size></box></geometry>
+          <material><ambient>0.6 0.6 0.6 1</ambient><diffuse>0.6 0.6 0.6 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Yük Alma Alanları (Yeşil Renk: A1, A2, A3) -->
+    <model name="area_a1">
+      <static>true</static>
+      <pose>-6 4 0.002 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.0 1.0 0.004</size></box></geometry>
+          <material><ambient>0.1 0.7 0.1 1</ambient><diffuse>0.1 0.7 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="area_a2">
+      <static>true</static>
+      <pose>-4 4 0.002 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.0 1.0 0.004</size></box></geometry>
+          <material><ambient>0.1 0.7 0.1 1</ambient><diffuse>0.1 0.7 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="area_a3">
+      <static>true</static>
+      <pose>-2 4 0.002 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.0 1.0 0.004</size></box></geometry>
+          <material><ambient>0.1 0.7 0.1 1</ambient><diffuse>0.1 0.7 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Yük Bırakma Alanları (Mavi Renk: B1, B2, B3) -->
+    <model name="area_b1">
+      <static>true</static>
+      <pose>6 3 0.002 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.0 1.0 0.004</size></box></geometry>
+          <material><ambient>0.1 0.1 0.7 1</ambient><diffuse>0.1 0.1 0.7 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="area_b2">
+      <static>true</static>
+      <pose>6 0 0.002 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.0 1.0 0.004</size></box></geometry>
+          <material><ambient>0.1 0.1 0.7 1</ambient><diffuse>0.1 0.1 0.7 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="area_b3">
+      <static>true</static>
+      <pose>6 -3 0.002 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.0 1.0 0.004</size></box></geometry>
+          <material><ambient>0.1 0.1 0.7 1</ambient><diffuse>0.1 0.1 0.7 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- ===== 1.5 METRE HASSAS HİZALAMA ÇİZGİLERİ ===== -->
+    <!-- A1 Giriş Çizgisi -->
+    <model name="line_a1">
+      <static>true</static>
+      <pose>-6 2.75 0.003 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.05 1.5 0.002</size></box></geometry>
+          <material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material> <!-- Sarı Şerit -->
+        </visual>
+      </link>
+    </model>
+
+    <!-- A2 Giriş Çizgisi -->
+    <model name="line_a2">
+      <static>true</static>
+      <pose>-4 2.75 0.003 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.05 1.5 0.002</size></box></geometry>
+          <material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- A3 Giriş Çizgisi -->
+    <model name="line_a3">
+      <static>true</static>
+      <pose>-2 2.75 0.003 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.05 1.5 0.002</size></box></geometry>
+          <material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- B1 Giriş Çizgisi (Yatay) -->
+    <model name="line_b1">
+      <static>true</static>
+      <pose>4.75 3 0.003 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.5 0.05 0.002</size></box></geometry>
+          <material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- B2 Giriş Çizgisi (Yatay) -->
+    <model name="line_b2">
+      <static>true</static>
+      <pose>4.75 0 0.003 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.5 0.05 0.002</size></box></geometry>
+          <material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- B3 Giriş Çizgisi (Yatay) -->
+    <model name="line_b3">
+      <static>true</static>
+      <pose>4.75 -3 0.003 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>1.5 0.05 0.002</size></box></geometry>
+          <material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- ===== QR KOD MARKERLARI (Temsili Zemin Kareleri) ===== -->
+    <!-- q1 (Başlangıç-D1 Arası) -->
+    <model name="qr_q1">
+      <static>true</static>
+      <pose>-6 -1.6 0.004 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.25 0.25 0.002</size></box></geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- q2 (A1 Önü) -->
+    <model name="qr_q2">
+      <static>true</static>
+      <pose>-6 1.5 0.004 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.25 0.25 0.002</size></box></geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- q3 (A2 Önü) -->
+    <model name="qr_q3">
+      <static>true</static>
+      <pose>-4 1.5 0.004 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.25 0.25 0.002</size></box></geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- q4 (A3 Önü) -->
+    <model name="qr_q4">
+      <static>true</static>
+      <pose>-2 1.5 0.004 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.25 0.25 0.002</size></box></geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- q5 (Sol Kapı Önü) -->
+    <model name="qr_q5">
+      <static>true</static>
+      <pose>-1.5 0 0.004 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.25 0.25 0.002</size></box></geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- q6 (Sağ Kapı Arkası) -->
+    <model name="qr_q6">
+      <static>true</static>
+      <pose>1.5 0 0.004 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.25 0.25 0.002</size></box></geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- q7 (B3 Önü) -->
+    <model name="qr_q7">
+      <static>true</static>
+      <pose>3.5 -3 0.004 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.25 0.25 0.002</size></box></geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- q8 (B2 Önü) -->
+    <model name="qr_q8">
+      <static>true</static>
+      <pose>3.5 0 0.004 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.25 0.25 0.002</size></box></geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- q9 (B1 Önü) -->
+    <model name="qr_q9">
+      <static>true</static>
+      <pose>3.5 3 0.004 0 0 0</pose>
+      <link name="link">
+        <visual name="visual">
+          <geometry><box><size>0.25 0.25 0.002</size></box></geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

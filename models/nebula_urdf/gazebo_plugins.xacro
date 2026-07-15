@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- ============================================================ -->
+  <!--  Gazebo-only eklentileri                                      -->
+  <!--  Bu dosya SADECE simülasyonda yüklenir.                       -->
+  <!--  Gerçek robotta model.xacro bu dosyayı include etmez.         -->
+  <!-- ============================================================ -->
+
+  <!-- ===== Malzeme renkleri (Gazebo kendi material sistemini kullanır) ===== -->
+  <gazebo reference="base_link">
+    <material>Gazebo/Green</material>
+    <mu1>0.3</mu1>
+    <mu2>0.3</mu2>
+  </gazebo>
+
+  <!-- Ön işareti: Gazebo'da da beyaz görünsün -->
+  <gazebo reference="front_marker_link">
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <!-- Yan panel: SIRIUS dokulu material (scripts/sirius.material) -->
+  <gazebo reference="left_panel_link">
+    <material>Sirius/Label</material>
+  </gazebo>
+
+  <gazebo reference="left_wheel_link">
+    <material>Gazebo/Red</material>
+    <mu1>2.5</mu1>
+    <mu2>2.5</mu2>
+    <kp>1e6</kp>
+    <kd>100</kd>
+  </gazebo>
+
+  <gazebo reference="right_wheel_link">
+    <material>Gazebo/Red</material>
+    <mu1>2.5</mu1>
+    <mu2>2.5</mu2>
+    <kp>1e6</kp>
+    <kd>100</kd>
+  </gazebo>
+
+  <!-- Caster tekerlekleri: yuvarlanmaları için sürtünme ver (eski mu=0 kayıyordu).
+       Swivel eklemi yön bulduğu için sürtünme sürüklemeye yol açmaz. -->
+  <gazebo reference="caster_fl_link"> <mu1>0.4</mu1> <mu2>0.4</mu2> <kp>1e6</kp> <kd>100</kd> </gazebo>
+  <gazebo reference="caster_fr_link"> <mu1>0.4</mu1> <mu2>0.4</mu2> <kp>1e6</kp> <kd>100</kd> </gazebo>
+  <gazebo reference="caster_bl_link"> <mu1>0.4</mu1> <mu2>0.4</mu2> <kp>1e6</kp> <kd>100</kd> </gazebo>
+  <gazebo reference="caster_br_link"> <mu1>0.4</mu1> <mu2>0.4</mu2> <kp>1e6</kp> <kd>100</kd> </gazebo>
+
+  <!-- ===== Diferansiyel Sürüş Eklentisi ===== -->
+  <gazebo>
+    <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
+      <ros>
+        <namespace>/</namespace>
+      </ros>
+
+      <!-- Tekerlek joint isimleri (Doğru atama) -->
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+
+      <!-- Fiziksel parametreler -->
+      <wheel_separation>0.415</wheel_separation>
+      <wheel_diameter>0.15</wheel_diameter>
+
+      <!-- Hız limitleri. Yüksek torque + accel → keskin kalkış/duruş,
+           durunca kayma azalır. Düşük accel tekerleği yavaş durdurup
+           kayma hissi yaratıyordu. -->
+      <max_wheel_torque>30.0</max_wheel_torque>
+      <max_wheel_acceleration>3.0</max_wheel_acceleration>
+
+      <!-- Odometri çıkışı -->
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+      <publish_wheel_tf>false</publish_wheel_tf>
+
+      <odometry_topic>/odom</odometry_topic>
+      <odometry_frame>odom</odometry_frame>
+      <robot_base_frame>base_footprint</robot_base_frame>
+
+      <!-- Odometri kaynağı: encoder = tekerlek dönüşünden (stabil, gerçek robota yakın)
+           world = Gazebo fizik motorundan (temas titreşimini yansıtır → drift/titreme) -->
+      <odometry_source>encoder</odometry_source>
+      <update_rate>50.0</update_rate>
+    </plugin>
+  </gazebo>
+
+  <!-- ===== Lidar Sensör Eklentisi (RPLidar A2M12 simülasyonu) ===== -->
+  <gazebo reference="lidar_link">
+    <sensor type="ray" name="lidar_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>  <!-- mavi ışın çizgilerini gizle -->
+      <update_rate>10.0</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.15</min>
+          <max>10.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <!-- Adım 4: Lidar gürültüsü (gerçek A2M12 sensör parazitine benzer) -->
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_lidar" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <remapping>~/out:=/scan</remapping>
+        </ros>
+        <output_type>sensor_msgs/LaserScan</output_type>
+        <frame_name>lidar_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- ===== IMU Sensör Eklentisi ===== -->
+  <gazebo reference="imu_link">
+    <sensor type="imu" name="imu_sensor">
+      <always_on>true</always_on>
+      <update_rate>50.0</update_rate>
+      <visualize>false</visualize>
+      <!-- Adım 4: IMU gürültüsü -->
+      <imu>
+        <angular_velocity>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0005</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0005</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0005</stddev></noise></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><noise type="gaussian"><mean>0.0</mean><stddev>0.005</stddev></noise></x>
+          <y><noise type="gaussian"><mean>0.0</mean><stddev>0.005</stddev></noise></y>
+          <z><noise type="gaussian"><mean>0.0</mean><stddev>0.005</stddev></noise></z>
+        </linear_acceleration>
+      </imu>
+      <plugin name="gazebo_ros_imu" filename="libgazebo_ros_imu_sensor.so">
+        <ros>
+          <remapping>~/out:=/imu/data_raw</remapping>
+        </ros>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+        <frame_name>imu_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="forklift_mast_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+
+  <gazebo reference="forklift_carriage_link">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="gazebo_ros_joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+      <ros>
+        <namespace>/</namespace>
+      </ros>
+      <update_rate>30.0</update_rate>
+      <joint_name>left_wheel_joint</joint_name>
+      <joint_name>right_wheel_joint</joint_name>
+      <joint_name>lift_joint</joint_name>
+    </plugin>
+  </gazebo>
+
+</robot>

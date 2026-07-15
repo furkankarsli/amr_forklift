@@ -1,0 +1,17 @@
+# GOAL
+string  sound_id          # sound name id
+string  file_path         # absolute file path (optional)
+float32 volume            # 0.0 - 1.0 (default if <= 0)
+float32 duration          # seconds (0 for full length)
+bool    loop              # repeat until duration expires
+bool    interrupt         # stop currently playing audio
+int32   priority          # priority level (higher runs first)
+---
+# RESULT
+bool   accepted
+string message
+string sink_name
+---
+# FEEDBACK
+float32 elapsed           # elapsed seconds
+string  state             # "waiting" | "playing" | "stopped" | "canceled" | "error"

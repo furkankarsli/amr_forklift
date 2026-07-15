@@ -1,0 +1,14 @@
+material Sirius/Label
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture sirius_label.png
+        filtering trilinear
+      }
+    }
+  }
+}

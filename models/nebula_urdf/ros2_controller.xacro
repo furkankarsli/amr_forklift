@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<ros2_control name="SiriusHardware" type="system">
+  <hardware>
+    <plugin>SiriusHardware</plugin>
+    <param name="device">/dev/ttyACM0</param>
+    <param name="baud_rate">115200</param>
+    <param name="timeout_ms">180</param>
+    <param name="enc_counts_per_rev">48</param>
+    <param name="loop_rate">5.0</param>
+    <param name="pid_p">60</param>
+    <param name="pid_d">12</param>
+    <param name="pid_i">0</param>
+    <param name="pid_o">0</param>
+  </hardware>
+
+  <joint name="left_wheel_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="velocity"/>
+    <state_interface name="position"/>
+  </joint>
+
+  <joint name="right_wheel_joint">
+    <command_interface name="velocity"/>
+    <state_interface name="velocity"/>
+    <state_interface name="position"/>
+  </joint>
+</ros2_control>
+
+
+  <!-- TRANSMISSIONS -->
+  <transmission name="left_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="left_wheel_joint">
+      <hardwareInterface>hardware_interface/velocity</hardwareInterface>
+    </joint>
+    <actuator name="left_wheel_motor">
+      <hardwareInterface>hardware_interface/velocity</hardwareInterface>
+    </actuator>
+  </transmission>
+
+  <transmission name="right_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="right_wheel_joint">
+      <hardwareInterface>hardware_interface/velocity</hardwareInterface>
+    </joint>
+    <actuator name="right_wheel_motor">
+      <hardwareInterface>hardware_interface/velocity</hardwareInterface>
+    </actuator>
+  </transmission>
+
+</robot>
