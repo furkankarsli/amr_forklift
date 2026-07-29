@@ -1,4 +1,4 @@
-material Sirius/Label
+material Nebula/Label
 {
   technique
   {
@@ -6,7 +6,7 @@ material Sirius/Label
     {
       texture_unit
       {
-        texture sirius_label.png
+        texture nebula_label.png
         filtering trilinear
       }
     }

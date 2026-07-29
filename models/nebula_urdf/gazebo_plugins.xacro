@@ -19,9 +19,9 @@
     <material>Gazebo/White</material>
   </gazebo>
 
-  <!-- Yan panel: SIRIUS dokulu material (scripts/sirius.material) -->
+  <!-- Yan panel: NEBULA dokulu material (scripts/nebula.material) -->
   <gazebo reference="left_panel_link">
-    <material>Sirius/Label</material>
+    <material>Nebula/Label</material>
   </gazebo>
 
   <gazebo reference="left_wheel_link">

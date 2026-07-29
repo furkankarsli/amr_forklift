@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-<ros2_control name="SiriusHardware" type="system">
+<ros2_control name="NebulaHardware" type="system">
   <hardware>
-    <plugin>SiriusHardware</plugin>
+    <plugin>NebulaHardware</plugin>
     <param name="device">/dev/ttyACM0</param>
     <param name="baud_rate">115200</param>
     <param name="timeout_ms">180</param>

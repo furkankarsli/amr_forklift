@@ -54,7 +54,7 @@
     <child link="front_marker_link"/>
   </joint>
 
-  <!-- YAN PANEL — sol yüze (+Y) "SIRIUS" yazılı doku -->
+  <!-- YAN PANEL — sol yüze (+Y) "NEBULA" yazılı doku -->
   <material name="nebula_label">
     <texture filename="package://amr_forklift/models/nebula_urdf/materials/textures/nebula_label.png"/>
   </material>
