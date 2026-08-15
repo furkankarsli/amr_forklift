@@ -11,10 +11,14 @@ use case (TEKNOFEST 2026, Industrial Robotics category).
 > the engineering decisions behind it.
 
 <p align="center">
-  <img src="media/real_robot.jpg" width="70%" alt="Nebula autonomous forklift running in a real corridor">
+  <a href="https://youtu.be/zErqqptTmfQ">
+    <img src="media/real_robot.jpg" width="70%" alt="Nebula autonomous forklift running in a real corridor — click to watch demo">
+  </a>
 </p>
 
-**▶ Watch the full demo (1:24): _[VIDEO LINK — will be added]_**
+<p align="center">
+  <b>▶ <a href="https://youtu.be/zErqqptTmfQ">Watch the full demo (1:24)</a></b>
+</p>
 
 ---
 
