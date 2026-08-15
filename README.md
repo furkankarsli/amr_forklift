@@ -56,7 +56,7 @@ heavy work (planning, perception) and millisecond-level motor control degrade ea
 other on one processor, so each layer does its own job.
 
 <p align="center">
-  <img src="media/architecture.png" width="55%" alt="System architecture: interface, Jetson brain, Mega drive, ESP32 forklift">
+  <img src="media/architecture.png" width="55%" alt="System architecture: interface, NVIDIA Jetson brain, Mega drive, ESP32 forklift">
 </p>
 
 ---
