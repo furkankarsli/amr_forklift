@@ -126,7 +126,17 @@ the sensor, I added an angle-based scan filter (`scan_filter_node`) that masks t
 known pillar bands within a short range, so navigation never treats the robot's own
 body as an obstacle.
 
-**7. Simulation-first, on constrained hardware.**
+**7. Point-teaching UX and a self-verifying live map.**
+Instead of typing coordinates, the operator drives the robot manually and *teaches*
+the current pose as a named point through the interface — points can be deleted and
+ordered into a route. I built this first in pygame, then as the web operator panel.
+To confirm mapping was healthy I first streamed a "square meters mapped" figure —
+but that wasn't enough, since the area can be right while the map shape is wrong. So
+I pushed the map itself to the interface every 2–3 seconds with the live lidar scan
+overlaid, letting the operator verify at a glance: if the scan lines up with the
+walls, localization is sound.
+
+**8. Simulation-first, on constrained hardware.**
 Every algorithm was validated in Gazebo before touching the real vehicle. The
 whole ROS 2 + Gazebo + RViz toolchain ran on a 4 GB RAM laptop, which forced
 disciplined, resource-aware engineering.
