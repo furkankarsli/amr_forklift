@@ -80,17 +80,24 @@ other on one processor, so each layer does its own job.
 
 Real hardware, real debugging — the kind of problems that don't show up in a tutorial.
 
-**1. Stop-and-resume obstacle behavior (per spec).**
+**1. Rebuilding a broken localization pipeline from scratch.**
+Inherited from a previous developer, the map rotated 20–30° even while the robot
+stood still, and fell apart entirely once it moved — localization was unusable. I
+traced it layer by layer, validating each fix in Gazebo first: the base heading and
+per-wheel direction signs were wrong, the wheelbase/track width was misconfigured
+(corrupting angular odometry), and the IMU feed was unreliable. The subtle one was a
+**quadrature-encoder scaling bug** — counting both rising and falling edges meant
+2 ticks equaled 1 real step, so odometry scaled distance and heading by ~2×. After
+correcting the frames, wheel directions, wheelbase, a clean 20 Hz IMU read, and the
+encoder resolution, the map became rock-solid: the lidar scan now overlays the map
+**perfectly even when I physically shove or shake the moving robot by hand.**
+
+**2. Stop-and-resume obstacle behavior (per spec).**
 The task required the robot to **stop** in front of an obstacle and resume the
 **same** route once it clears — *not* to plan a detour. Standard Nav2 wants to
 re-route, so I added a dedicated guard node that stores the route as one unit,
 cancels tracking when an obstacle appears, and re-issues the stored path once it
 clears — preserving route integrity.
-
-**2. High-accuracy mapping (SLAM + sensor fusion).**
-Clean mapping depends on clean localization. I tuned SLAM together with an EKF
-that fuses wheel odometry and a 9-axis IMU, so drift from wheel slip or uneven
-ground is suppressed — verifiable live by overlaying the lidar scan on the map.
 
 **3. Unreliable USB comms → moved to WiFi/TCP.**
 The forklift controller originally talked to the main computer over USB, which
