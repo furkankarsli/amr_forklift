@@ -114,11 +114,11 @@ bridge: the Mega reports measured wheel speed from the encoders, and a per-wheel
 **PID plus feedforward** (static-friction + viscous terms) computes the PWM — so
 the vehicle tracks velocity commands cleanly instead of lurching or overshooting.
 
-**5. A "100% CPU" that wasn't a CPU problem.**
-Autonomous motion was stuttering and the dashboard showed 100% CPU. The instant
-`top` reading was misleading — the real signal was the **load average**. Root
-cause: a stale build artifact running old code that spawned a subprocess on every
-status poll. A clean rebuild dropped the 1-minute load from ~9.6 to ~0.4.
+**5. Fixing 100% CPU and stuttering autonomous motion.**
+During autonomous driving the robot moved in stutters and CPU hit 100%. I tracked it
+down to a QR-reader node accidentally running twice at once, plus ROS processes
+consuming far more resources than they needed. Fixing both brought CPU back to normal
+and made the motion smooth again.
 
 **6. Blind-spot filtering for the robot's own forklift.**
 The lidar was seeing the robot's own forklift arms as obstacles. Instead of moving
